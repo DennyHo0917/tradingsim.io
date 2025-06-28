@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Simulator - Financial Market Game</title>
+    <link rel="stylesheet" href="styles/main.css?v=2">
+    <link rel="stylesheet" href="styles/overrides.css?v=1">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">Trading Simulator</h1>
+            <div class="header-right">
+                <nav class="nav">
+                    <button class="nav-btn active" data-view="trading">Trading</button>
+                    <button class="nav-btn" data-view="history">History</button>
+                    <button class="nav-btn" data-view="achievements">🏆 Achievements</button>
+                    <button class="nav-btn" id="share-x-btn">Share on X</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Account Info Panel -->
+        <section class="account-panel">
+            <!-- News Display Area -->
+            <div id="time-status" style="min-height: 50px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px;">
+                <!-- 时间文本 -->
+                <div id="game-time" style="font-size: 1.1em; color: #00d4ff; font-weight: bold; white-space: nowrap;">
+                    📅 1990 Q1 (Jan 1)
+                </div>
+                <!-- 时间控制按钮 -->
+                <div style="display:flex; gap:8px;">
+                    <button id="pause-btn" class="time-control-btn-glass" data-speed="0" title="Pause">⏸️</button>
+                    <button id="play-0.5x-btn" class="time-control-btn-glass" data-speed="0.5" title="Slow Speed 0.5x">🐌</button>
+                    <button id="play-1x-btn" class="time-control-btn-glass active" data-speed="1" title="Normal Speed 1x">▶️</button>
+                    <button id="play-3x-btn" class="time-control-btn-glass" data-speed="3" title="Fast Speed 3x">⏩</button>
+                    <button id="play-5x-btn" class="time-control-btn-glass" data-speed="5" title="MAX Speed 5x">🚀</button>
+                </div>
+            </div>
+            <!-- 新闻栏放在时间块外面，由 JS 注入 -->
+            <div id="news-bar" style="width: 100%; min-height: 50px; margin-bottom: 15px; border-radius: 8px;"></div>
+            
+            <div class="account-info">
+                <div class="balance-item" style="grid-column: 1 / -1; text-align: center; margin-bottom: 10px;">
+                    <div id="player-title" style="font-size: 0.9em; color: #ffd700; margin-top: 5px;">
+                        <!-- Player title will appear here -->
+                    </div>
+                </div>
+                <div class="balance-item">
+                    <label>Balance:</label>
+                    <span id="account-balance">$10,000.00</span>
+                </div>
+                <div class="balance-item">
+                    <label>Equity:</label>
+                    <span id="account-equity">$10,000.00</span>
+                </div>
+                <div class="balance-item">
+                    <label>Positions:</label>
+                    <span id="position-count">0</span>
+                </div>
+                <div class="balance-item">
+                    <label>Orders:</label>
+                    <span id="order-count">0</span>
+                </div>
+                <div class="balance-item">
+                    <label>P&L:</label>
+                    <span id="total-pnl" class="pnl-neutral">$0.00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trading Interface -->
+        <section class="trading-section" id="trading-section">
+            <!-- Chart Container - ONLY shown in trading view -->
+            <div class="chart-container" id="chart-container">
+                <div class="chart-header">
+                    <h2 class="symbol-title">CRYPTO/USD</h2>
+                    <div class="price-display">
+                        <span id="current-price">$50,000.00</span>
+                        <span id="price-change" class="price-neutral">$0.00 (0.00%)</span>
+                    </div>
+                </div>
+                <div id="price-chart" class="chart-canvas">
+                    <!-- Chart will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Trading Panel -->
+            <div class="trading-panel">
+                <div class="trade-controls">
+                    <div class="trade-type-selector">
+                        <button class="trade-btn buy-btn" id="buy-btn">
+                            <span class="btn-text">BUY / LONG</span>
+                            <span class="btn-price" id="buy-price">$50,000.00</span>
+                        </button>
+                        <button class="trade-btn sell-btn" id="sell-btn">
+                            <span class="btn-text">SELL / SHORT</span>
+                            <span class="btn-price" id="sell-price">$49,999.00</span>
+                        </button>
+                    </div>
+
+                    <div class="trade-inputs">
+                        <div class="input-group">
+                            <label for="order-type">Order Type:</label>
+                            <select id="order-type">
+                                <option value="market">Market Order</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
+                            </select>
+                        </div>
+                        <div class="input-group" id="price-input-group" style="display: none;">
+                            <label for="order-price">Price:</label>
+                            <input type="number" id="order-price" value="50000" min="1" step="0.01">
+                            <span class="input-unit">USD</span>
+                        </div>
+                        <div class="input-group">
+                            <label for="leverage">Position Size (Leverage):</label>
+                            <select id="leverage">
+                                <option value="0.5">0.5x ($5,000)</option>
+                                <option value="1">1x ($10,000)</option>
+                                <option value="3">3x ($30,000)</option>
+                                <option value="5">5x ($50,000)</option>
+                                <option value="10" selected>10x ($100,000)</option>
+                                <option value="50">50x ($500,000)</option>
+                                <option value="100">100x ($1,000,000)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Positions Panel -->
+        <section class="positions-section" id="positions-section">
+            <h3>Open Positions</h3>
+            <div class="positions-container">
+                <table class="positions-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Type</th>
+                            <th>Position</th>
+                            <th>Entry Price</th>
+                            <th>Current Price</th>
+                            <th>P&L</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="positions-tbody">
+                        <!-- Positions will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="no-positions" id="no-positions" style="display: block;">
+                    <p>No open positions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Panel -->
+        <section class="history-section" id="history-section" style="display: none;">
+            <h3>History</h3>
+            
+            <!-- History Tabs -->
+            <div class="history-tabs">
+                <button class="history-tab active" id="trading-history-tab">Trading History</button>
+                <button class="history-tab" id="news-history-tab">News History</button>
+            </div>
+            
+            <!-- Trading History Content -->
+            <div class="history-content" id="trading-history-content">
+                <div class="history-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Close Time</th>
+                                <th>Symbol</th>
+                                <th>Side</th>
+                                <th>Size</th>
+                                <th>Entry Price</th>
+                                <th>Exit Price</th>
+                                <th>P&L</th>
+                                <th>Return</th>
+                                <th>Duration</th>
+                                <th>Leverage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody">
+                            <!-- Trading history will be inserted here -->
+                        </tbody>
+                    </table>
+                    <div class="no-history" id="no-history" style="display: block;">
+                        <p>No trading history</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- News History Content -->
+            <div class="history-content" id="news-history-content" style="display: none;">
+                <div class="history-container">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>News Content</th>
+                                <th>Market Impact</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody id="news-history-tbody">
+                            <!-- News history will be inserted here -->
+                        </tbody>
+                    </table>
+                    <div class="no-news-history" id="no-news-history" style="display: block;">
+                        <p>No news history</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pending Orders Panel -->
+        <section class="orders-section" id="orders-section" style="display: none;">
+            <h3>Pending Orders</h3>
+            <div class="orders-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Side</th>
+                            <th>Position</th>
+                            <th>Order Price</th>
+                            <th>Current Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <!-- Pending orders will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="no-orders" id="no-orders" style="display: block;">
+                    <p>No pending orders</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Panel -->
+        <section class="achievements-section" id="achievements-section" style="display: none;">
+            <h3>🏆 Achievements</h3>
+            <div class="achievements-container">
+                <div class="achievements-stats">
+                    <div class="stat-item">
+                        <label>Unlocked:</label>
+                        <div class="stat-value">
+                            <span id="achievements-unlocked">0</span>
+                            <span>/</span>
+                            <span id="achievements-total">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <label>Total Trades:</label>
+                        <span id="stats-total-trades">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Win Rate:</label>
+                        <span id="stats-win-rate">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Max Balance:</label>
+                        <span id="stats-max-balance">$10,000</span>
+                    </div>
+                </div>
+                <div class="achievements-grid" id="achievements-grid">
+                    <!-- Achievements will be dynamically populated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Game Modal -->
+    <div id="game-modal" class="game-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Title</h3>
+                <button class="modal-close" onclick="closeGameModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-message">Message</div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-confirm" class="modal-btn modal-btn-primary" onclick="closeGameModal()">OK</button>
+                <button id="modal-cancel" class="modal-btn modal-btn-secondary" onclick="closeGameModal()" style="display: none;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模块化入口脚本 -->
+    <script type="module" src="src/main.js"></script>
+
+    <script id="legacy-script" type="text/plain">
+    </script>
+    
+    <!-- Footer -->
+    <footer class="footer-main">
+        <p>&copy; 2025 Playful.cafe All rights reserved.</p>
+        <p><a href="privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
