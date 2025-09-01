@@ -173,9 +173,38 @@
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                selectedImage = e.target.result;
+            // Create image element for compression
+            const img = new Image();
+            img.onload = function() {
+                // Create canvas for compression
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Set max dimensions (reduce size significantly)
+                const maxWidth = 400;
+                const maxHeight = 300;
+                
+                let { width, height } = img;
+                
+                // Calculate new dimensions
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = (width * maxHeight) / height;
+                        height = maxHeight;
+                    }
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                // Draw and compress
+                ctx.drawImage(img, 0, 0, width, height);
+                selectedImage = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
                 
                 // Show preview
                 document.querySelector('.upload-placeholder').style.display = 'none';
@@ -184,6 +213,13 @@
                 
                 previewImg.src = selectedImage;
                 preview.style.display = 'block';
+                
+                console.log('Image compressed. Original size:', file.size, 'Compressed size:', selectedImage.length);
+            };
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         });
@@ -248,10 +284,8 @@
             }, 5000);
         }
 
-        // Show setup instructions if not configured
-        if (EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY') {
-            console.warn('EmailJS not configured yet. Please update the EMAILJS_CONFIG object with your credentials.');
-        }
+        // EmailJS configuration loaded
+        console.log('✅ EmailJS initialized with service:', EMAILJS_CONFIG.serviceId);
     </script>
 </body>
 </html>
