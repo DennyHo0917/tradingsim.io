@@ -1,0 +1,171 @@
+# Trading Simulator - Cursor Rules
+# 交易模拟器项目开发规范
+
+## 🎯 项目概述
+这是一个基于Web的交易模拟器项目，使用纯前端技术栈（HTML5, CSS3, ES6 Modules）。
+目标是为用户提供一个教育性的金融交易学习平台。
+
+## 📁 项目架构规范
+
+### 目录结构
+```
+/
+├── index.html              # 主页面
+├── privacy.html            # 隐私政策
+├── about.html              # 关于我们 (待创建)
+├── terms.html              # 服务条款 (待创建)
+├── contact.html            # 联系我们 (待创建)
+├── help.html               # 帮助文档 (待创建)
+├── src/                    # 源代码目录
+│   ├── config/            # 配置文件 (纯JSON/对象)
+│   ├── utils/             # 工具函数 (无状态)
+│   ├── services/          # 业务逻辑 (不操作DOM)
+│   ├── ui/                # UI组件 (仅DOM操作)
+│   └── main.js            # 应用入口
+├── styles/                # 样式文件
+│   ├── main.css           # 主样式
+│   └── overrides.css      # 覆盖样式
+└── assets/                # 静态资源 (待创建)
+    ├── images/
+    └── icons/
+```
+
+### 层级依赖规则
+- 依赖层级：`config → utils → services → ui → main`
+- **严禁**低层引用高层代码
+- **严禁**services层直接操作DOM
+- UI层只能调用service暴露的方法，不得直接修改内部状态
+
+## 💻 代码规范
+
+### JavaScript规范
+- **模块系统**: 使用ES6 Modules (`import/export`)
+- **变量命名**: 使用camelCase，常量使用UPPER_SNAKE_CASE
+- **函数命名**: 动词开头，描述性命名 (如 `calculateProfit`, `updateBalance`)
+- **类命名**: PascalCase (如 `TradingEngine`, `AccountService`)
+- **文件命名**: camelCase.js (如 `tradingEngine.js`, `accountService.js`)
+
+### HTML规范
+- **语义化标签**: 使用正确的HTML5语义标签
+- **可访问性**: 必须包含alt属性、ARIA标签
+- **SEO优化**: 每个页面必须包含完整的meta标签
+- **响应式设计**: 必须包含viewport meta标签
+
+### CSS规范
+- **命名约定**: 使用BEM方法论或语义化类名
+- **响应式**: 移动优先设计，使用媒体查询
+- **性能**: 避免深层嵌套，合理使用CSS变量
+- **兼容性**: 支持现代浏览器，优雅降级
+
+## 📄 内容创建规范
+
+### 页面内容要求
+- **原创性**: 所有内容必须原创，不得抄袭
+- **教育价值**: 内容应对用户有实际帮助和教育意义
+- **语言质量**: 英文内容语法正确，表达清晰
+- **用户体验**: 内容结构清晰，易于阅读和理解
+
+### SEO优化要求
+每个HTML页面必须包含：
+```html
+<!-- 基础SEO -->
+<title>具体页面标题 - Trading Simulator</title>
+<meta name="description" content="页面描述，120-160字符">
+<meta name="keywords" content="相关关键词">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="完整URL">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="完整URL">
+<meta property="og:title" content="页面标题">
+<meta property="og:description" content="页面描述">
+<meta property="og:image" content="图片URL">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="完整URL">
+<meta name="twitter:title" content="页面标题">
+<meta name="twitter:description" content="页面描述">
+<meta name="twitter:image" content="图片URL">
+```
+
+## 🔧 开发流程规范
+
+### 文件创建流程
+1. **HTML页面**: 先创建基础结构，包含完整SEO标签
+2. **CSS样式**: 遵循现有设计系统，保持一致性
+3. **JavaScript功能**: 遵循模块化架构，不破坏现有结构
+4. **测试验证**: 确保功能正常，无控制台错误
+
+### 代码质量要求
+- **无控制台错误**: 生产代码不得有JavaScript错误
+- **性能优化**: 图片压缩，代码最小化
+- **兼容性测试**: 在主流浏览器中测试
+- **移动端适配**: 确保移动设备正常显示
+
+## 🚫 禁止事项
+
+### 严禁操作
+- **删除现有功能**: 不得破坏已有的交易模拟器功能
+- **修改核心架构**: 不得改变services/ui分离的架构
+- **添加外部依赖**: 保持纯前端，不引入框架库
+- **创建测试页面**: 不在根目录创建test_*.html文件
+
+### 内容禁忌
+- **版权侵权**: 不得使用未授权的图片、文字、代码
+- **误导信息**: 不得包含错误的金融建议或信息
+- **广告内容**: 除AdSense外不得添加其他广告
+- **恶意代码**: 严禁任何形式的恶意代码
+
+## 📊 AdSense合规要求
+
+### 内容政策
+- **教育导向**: 强调教育和学习目的
+- **风险提示**: 明确说明这是模拟交易，非真实投资建议
+- **用户安全**: 不收集个人信息，保护用户隐私
+- **内容质量**: 提供有价值的原创内容
+
+### 技术要求
+- **页面加载速度**: 确保快速加载
+- **移动友好**: 完美的移动端体验
+- **导航清晰**: 用户能轻松找到所需内容
+- **错误处理**: 优雅处理错误情况
+
+## 🔄 更新维护规范
+
+### 代码更新
+- **向后兼容**: 新功能不得破坏现有功能
+- **渐进增强**: 优先保证基础功能，再添加高级特性
+- **文档同步**: 代码变更时同步更新相关文档
+- **版本控制**: 重要更改需要版本标记
+
+### 内容维护
+- **定期检查**: 定期检查链接有效性和内容准确性
+- **用户反馈**: 及时响应用户反馈和建议
+- **性能监控**: 监控网站性能和用户体验
+- **安全更新**: 及时处理安全相关问题
+
+## 📞 团队协作
+
+### 沟通规范
+- **变更通知**: 重要变更需提前通知团队
+- **问题报告**: 发现问题及时报告和记录
+- **知识共享**: 分享最佳实践和解决方案
+- **代码审查**: 重要功能需要代码审查
+
+### 责任分工
+- **前端开发**: 遵循架构规范，保证代码质量
+- **内容创作**: 确保内容原创性和教育价值
+- **设计优化**: 保持设计一致性和用户体验
+- **测试验证**: 全面测试功能和兼容性
+
+---
+
+**记住**: 我们的目标是创建一个高质量、有教育价值的交易模拟器网站，为用户提供安全的学习环境，同时满足Google AdSense的所有要求。
+
+**最重要的原则**: 
+1. 用户价值优先
+2. 代码质量保证  
+3. 内容原创教育
+4. 合规安全运营

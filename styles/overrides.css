@@ -1,0 +1,208 @@
+/* Trading Simulator - Overrides (迁移自 index-simple.html 内联 <style>) */
+
+/* 为所有section添加过渡效果 */
+.trading-section,
+.positions-section,
+.orders-section,
+.history-section,
+.achievements-section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 防止按钮在加载时闪烁 */
+.nav-btn {
+    transition: all 0.3s ease;
+}
+
+/* 确保按钮在所有设备上都有正确的布局 */
+@media (max-width: 480px) {
+    .nav {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+    }
+}
+
+/* 默认隐藏所有非trading页面的trading-section */
+body:not(.trading-active) .trading-section {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* 默认隐藏所有非trading页面的交易按钮 */
+body:not(.trading-active) .trade-btn,
+body:not(.trading-active) .trading-panel,
+body:not(.trading-active) #buy-btn,
+body:not(.trading-active) #sell-btn {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Header右侧布局 */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* 时间控制按钮 - 毛玻璃效果 */
+.time-controls-header {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.time-control-btn-glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.time-control-btn-glass:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.time-control-btn-glass.active {
+    background: rgba(0, 212, 255, 0.3);
+    border-color: rgba(0, 212, 255, 0.5);
+    color: #00d4ff;
+    box-shadow: 0 0 16px rgba(0, 212, 255, 0.3);
+}
+
+.time-control-btn-glass:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 确保trading-section始终保持左右布局 */
+body.trading-active .trading-section {
+    display: grid !important;
+    grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr) !important;
+    gap: 2rem !important;
+    visibility: visible !important;
+    width: 100% !important;
+}
+
+/* 确保图表容器在左侧 */
+body.trading-active .chart-container {
+    grid-column: 1;
+    min-width: 0;
+    width: 100%;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* 确保交易面板在右侧 */
+body.trading-active .trading-panel {
+    grid-column: 2;
+    display: block !important;
+    visibility: visible !important;
+    min-width: 300px;
+}
+
+/* 确保持仓信息在下方，跨越整个宽度 */
+body.trading-active .positions-section {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* 移除可能影响布局的其他规则 */
+body.trading-active .trade-btn {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .header-right {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .time-controls-header {
+        order: -1;
+    }
+
+    body.trading-active .trading-section {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    body.trading-active .chart-container {
+        grid-column: 1;
+        min-height: 300px;
+    }
+
+    body.trading-active .trading-panel {
+        grid-column: 1;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .time-controls-header {
+        padding: 6px 8px;
+        gap: 6px;
+    }
+
+    .time-control-btn-glass {
+        padding: 6px 8px;
+        min-width: 35px;
+        font-size: 12px;
+    }
+
+    body.trading-active .trading-section {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    body.trading-active .chart-container {
+        grid-column: 1;
+        min-height: 250px;
+    }
+
+    body.trading-active .trading-panel {
+        grid-column: 1;
+        min-width: auto;
+    }
+
+    .trade-type-selector {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .trade-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+} 

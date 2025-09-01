@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Trading Simulator</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/overrides.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0FDD88XVC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K0FDD88XVC');
+    </script>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Send feedback about Trading Simulator. Report bugs, suggest features, or share your experience with our free trading game.">
+    <meta name="keywords" content="trading simulator feedback, bug report, feature request, contact">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tradingsim.io/feedback.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tradingsim.io/feedback.html">
+    <meta property="og:title" content="Feedback - Trading Simulator">
+    <meta property="og:description" content="Send feedback about Trading Simulator. Help us improve the game!">
+    <meta property="og:image" content="https://tradingsim.io/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://tradingsim.io/feedback.html">
+    <meta name="twitter:title" content="Feedback - Trading Simulator">
+    <meta name="twitter:description" content="Send feedback about Trading Simulator. Help us improve the game!">
+    <meta name="twitter:image" content="https://tradingsim.io/og-image.jpg">
+    
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Trading Simulator</div>
+            <nav class="nav">
+                <a href="index.html" class="nav-btn">🏠 Back to Game</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <section class="feedback-section">
+            <h1 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #00d4ff;">
+                📝 Send Feedback
+            </h1>
+            
+            <div class="feedback-intro">
+                <p style="text-align: center; margin-bottom: 2rem; color: #ccc; line-height: 1.6;">
+                    Help us improve Trading Simulator! Share your thoughts, report bugs, or suggest new features.
+                    <br>Your feedback is valuable to us and helps make the game better for everyone.
+                </p>
+            </div>
+            
+            <div class="feedback-form-container">
+                <form id="feedback-form" class="feedback-form">
+                    <!-- Feedback Type -->
+                    <div class="form-group">
+                        <label for="feedback-type">Feedback Type:</label>
+                        <select id="feedback-type" name="feedback_type" required>
+                            <option value="">Select feedback type...</option>
+                            <option value="bug">🐛 Bug Report</option>
+                            <option value="feature">💡 Feature Request</option>
+                            <option value="improvement">⚡ Improvement Suggestion</option>
+                            <option value="praise">👍 Compliment</option>
+                            <option value="other">❓ Other</option>
+                        </select>
+                    </div>
+                    
+                    <!-- User Name (Optional) -->
+                    <div class="form-group">
+                        <label for="user-name">Your Name (Optional):</label>
+                        <input type="text" id="user-name" name="user_name" placeholder="Anonymous">
+                    </div>
+                    
+                    <!-- Email (Optional) -->
+                    <div class="form-group">
+                        <label for="user-email">Your Email (Optional - for follow-up):</label>
+                        <input type="email" id="user-email" name="user_email" placeholder="your@email.com">
+                    </div>
+                    
+                    <!-- Subject -->
+                    <div class="form-group">
+                        <label for="feedback-subject">Subject:</label>
+                        <input type="text" id="feedback-subject" name="feedback_subject" required 
+                               placeholder="Brief description of your feedback">
+                    </div>
+                    
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label for="feedback-message">Message:</label>
+                        <textarea id="feedback-message" name="feedback_message" required 
+                                  placeholder="Please describe your feedback in detail. If reporting a bug, include steps to reproduce it."
+                                  rows="6"></textarea>
+                    </div>
+                    
+                    <!-- Image Upload -->
+                    <div class="form-group">
+                        <label for="feedback-image">Screenshot (Optional):</label>
+                        <div class="image-upload-area">
+                            <input type="file" id="feedback-image" name="feedback_image" 
+                                   accept="image/*" style="display: none;">
+                            <div class="upload-placeholder" onclick="document.getElementById('feedback-image').click()">
+                                <div class="upload-icon">📷</div>
+                                <div class="upload-text">Click to upload screenshot</div>
+                                <div class="upload-hint">PNG, JPG up to 2MB</div>
+                            </div>
+                            <div class="image-preview" id="image-preview" style="display: none;">
+                                <img id="preview-img" src="" alt="Preview">
+                                <button type="button" class="remove-image" onclick="removeImage()">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span class="btn-text">Send Feedback</span>
+                            <span class="btn-icon">📤</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Status Message -->
+                    <div id="status-message" class="status-message" style="display: none;"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-main">
+        <p>&copy; 2025 Playful.cafe All rights reserved.</p>
+        <p>
+            <a href="privacy.html">Privacy Policy</a> | 
+            <a href="index.html">Back to Game</a>
+        </p>
+    </footer>
+
+    <!-- Feedback Form Script -->
+    <script>
+        // EmailJS Configuration (需要替换为你的实际配置)
+        const EMAILJS_CONFIG = {
+            publicKey: 'CoB6qtPncrGplW1ue', // 替换为你的EmailJS公钥
+            serviceId: 'service_8vihxbe', // 替换为你的服务ID
+            templateId: 'template_7n1c43s' // 替换为你的模板ID
+        };
+
+        // Initialize EmailJS
+        emailjs.init(EMAILJS_CONFIG.publicKey);
+
+        // Image handling
+        let selectedImage = null;
+
+        document.getElementById('feedback-image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Check file size (2MB limit)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Image size must be less than 2MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedImage = e.target.result;
+                
+                // Show preview
+                document.querySelector('.upload-placeholder').style.display = 'none';
+                const preview = document.getElementById('image-preview');
+                const previewImg = document.getElementById('preview-img');
+                
+                previewImg.src = selectedImage;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function removeImage() {
+            selectedImage = null;
+            document.getElementById('feedback-image').value = '';
+            document.querySelector('.upload-placeholder').style.display = 'block';
+            document.getElementById('image-preview').style.display = 'none';
+        }
+
+        // Form submission
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const statusMessage = document.getElementById('status-message');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="btn-text">Sending...</span><span class="btn-icon">⏳</span>';
+            
+            // Prepare form data
+            const formData = {
+                feedback_type: document.getElementById('feedback-type').value,
+                user_name: document.getElementById('user-name').value || 'Anonymous',
+                user_email: document.getElementById('user-email').value || 'Not provided',
+                feedback_subject: document.getElementById('feedback-subject').value,
+                feedback_message: document.getElementById('feedback-message').value,
+                feedback_image: selectedImage || 'No image provided',
+                timestamp: new Date().toLocaleString(),
+                page_url: window.location.href
+            };
+
+            // Send email via EmailJS
+            emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, formData)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    showStatus('✅ Thank you! Your feedback has been sent successfully.', 'success');
+                    document.getElementById('feedback-form').reset();
+                    removeImage();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    showStatus('❌ Sorry, there was an error sending your feedback. Please try again.', 'error');
+                })
+                .finally(function() {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span class="btn-text">Send Feedback</span><span class="btn-icon">📤</span>';
+                });
+        });
+
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            statusMessage.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show setup instructions if not configured
+        if (EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY') {
+            console.warn('EmailJS not configured yet. Please update the EMAILJS_CONFIG object with your credentials.');
+        }
+    </script>
+</body>
+</html>
