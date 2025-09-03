@@ -54,9 +54,9 @@ export const ACHIEVEMENTS = {
   WHALE: {
     id: 'whale',
     name: 'Whale',
-    description: 'Make a single trade worth $500,000',
+    description: 'Make a single trade worth $5,000,000',
     icon: '🐋',
-    condition: { type: 'single_trade_size', amount: 500000 },
+    condition: { type: 'single_trade_size', amount: 5000000 },
     reward: { title: 'Big Whale' },
   },
   // 技巧类
