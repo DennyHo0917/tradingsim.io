@@ -244,6 +244,8 @@
             
             // Prepare form data
             const formData = {
+                to_email: 'dennyho0917@hotmail.com', // 主邮箱
+                to_email_test: 'dennyho0917@hotmail.com', // 备用测试邮箱
                 feedback_type: document.getElementById('feedback-type').value,
                 user_name: document.getElementById('user-name').value || 'Anonymous',
                 user_email: document.getElementById('user-email').value || 'Not provided',
@@ -255,14 +257,27 @@
             };
 
             // Send email via EmailJS
+            console.log('Sending data to EmailJS:', formData);
+            console.log('Using service:', EMAILJS_CONFIG.serviceId, 'template:', EMAILJS_CONFIG.templateId);
+            
             emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, formData)
                 .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    showStatus('✅ Thank you! Your feedback has been sent successfully.', 'success');
+                    console.log('✅ EmailJS SUCCESS!', response.status, response.text);
+                    console.log('📧 Email sent via Outlook service to: dennyho0917@hotmail.com');
+                    console.log('📧 Response details:', response);
+                    console.log('📧 Check Gmail: inbox, spam, promotions, social tabs');
+                    
+                    // Show more specific success message
+                    showStatus(`✅ Feedback sent successfully! 
+                    📧 From: Outlook service 
+                    📧 To: dennyho0917@hotmail.com 
+                    📧 Check all Gmail folders (including spam)
+                    ⏰ Time: ${new Date().toLocaleTimeString()}`, 'success');
                     document.getElementById('feedback-form').reset();
                     removeImage();
                 }, function(error) {
-                    console.log('FAILED...', error);
+                    console.log('❌ EmailJS FAILED:', error);
+                    console.log('Error details:', error.text || error.message);
                     showStatus('❌ Sorry, there was an error sending your feedback. Please try again.', 'error');
                 })
                 .finally(function() {
@@ -286,6 +301,8 @@
 
         // EmailJS configuration loaded
         console.log('✅ EmailJS initialized with service:', EMAILJS_CONFIG.serviceId);
+        
+        // EmailJS is working - check your Outlook email inbox and spam folder
     </script>
 </body>
 </html>
