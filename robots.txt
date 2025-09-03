@@ -1,0 +1,35 @@
+# Trading Simulator - Robots.txt
+# This file tells search engines which pages to crawl and which to avoid
+
+User-agent: *
+Allow: /
+
+# Allow main pages
+Allow: /index.html
+Allow: /privacy.html
+Allow: /feedback.html
+
+# Block development and configuration files
+Disallow: /src/
+Disallow: /start-server.bat
+Disallow: /*.md
+Disallow: /test_*
+Disallow: /EMAILJS_SETUP.md
+Disallow: /README-Server.md
+Disallow: /RULES.md
+Disallow: /MODULARIZATION_RULES.md
+
+# Allow static resources
+Allow: /styles/
+Allow: /assets/
+
+# Block any temporary or backup files
+Disallow: /*.bak
+Disallow: /*.tmp
+Disallow: /*~
+
+# Crawl delay (optional - be respectful to server resources)
+Crawl-delay: 1
+
+# Sitemap location (when available)
+Sitemap: https://tradingsim.io/sitemap.xml
