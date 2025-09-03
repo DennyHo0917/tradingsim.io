@@ -7,13 +7,14 @@ export function initNavigation() {
     portfolio: document.querySelector('.positions-section'),
     history: document.querySelector('.history-section'),
     achievements: document.querySelector('.achievements-section'),
+    leaderboard: document.querySelector('.leaderboard-section'),
   };
 
   function activate(tab) {
     // 更新按钮
     navBtns.forEach((btn) => btn.classList.toggle('active', btn.dataset.view === tab));
     // 更新 body 类
-    document.body.classList.remove('trading-active', 'portfolio-active', 'history-active', 'achievements-active');
+    document.body.classList.remove('trading-active', 'portfolio-active', 'history-active', 'achievements-active', 'leaderboard-active');
     document.body.classList.add(`${tab}-active`);
     // 控制 section 显示
     Object.entries(sections).forEach(([key, el]) => {

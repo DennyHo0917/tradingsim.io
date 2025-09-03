@@ -106,23 +106,7 @@
                                   rows="6"></textarea>
                     </div>
                     
-                    <!-- Image Upload -->
-                    <div class="form-group">
-                        <label for="feedback-image">Screenshot (Optional):</label>
-                        <div class="image-upload-area">
-                            <input type="file" id="feedback-image" name="feedback_image" 
-                                   accept="image/*" style="display: none;">
-                            <div class="upload-placeholder" onclick="document.getElementById('feedback-image').click()">
-                                <div class="upload-icon">📷</div>
-                                <div class="upload-text">Click to upload screenshot</div>
-                                <div class="upload-hint">PNG, JPG up to 2MB</div>
-                            </div>
-                            <div class="image-preview" id="image-preview" style="display: none;">
-                                <img id="preview-img" src="" alt="Preview">
-                                <button type="button" class="remove-image" onclick="removeImage()">✕</button>
-                            </div>
-                        </div>
-                    </div>
+
                     
                     <!-- Submit Button -->
                     <div class="form-group">
@@ -160,76 +144,7 @@
         // Initialize EmailJS
         emailjs.init(EMAILJS_CONFIG.publicKey);
 
-        // Image handling
-        let selectedImage = null;
 
-        document.getElementById('feedback-image').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            // Check file size (2MB limit)
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Image size must be less than 2MB');
-                return;
-            }
-
-            // Create image element for compression
-            const img = new Image();
-            img.onload = function() {
-                // Create canvas for compression
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                
-                // Set max dimensions (reduce size significantly)
-                const maxWidth = 400;
-                const maxHeight = 300;
-                
-                let { width, height } = img;
-                
-                // Calculate new dimensions
-                if (width > height) {
-                    if (width > maxWidth) {
-                        height = (height * maxWidth) / width;
-                        width = maxWidth;
-                    }
-                } else {
-                    if (height > maxHeight) {
-                        width = (width * maxHeight) / height;
-                        height = maxHeight;
-                    }
-                }
-                
-                canvas.width = width;
-                canvas.height = height;
-                
-                // Draw and compress
-                ctx.drawImage(img, 0, 0, width, height);
-                selectedImage = canvas.toDataURL('image/jpeg', 0.7); // 70% quality
-                
-                // Show preview
-                document.querySelector('.upload-placeholder').style.display = 'none';
-                const preview = document.getElementById('image-preview');
-                const previewImg = document.getElementById('preview-img');
-                
-                previewImg.src = selectedImage;
-                preview.style.display = 'block';
-                
-                console.log('Image compressed. Original size:', file.size, 'Compressed size:', selectedImage.length);
-            };
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-
-        function removeImage() {
-            selectedImage = null;
-            document.getElementById('feedback-image').value = '';
-            document.querySelector('.upload-placeholder').style.display = 'block';
-            document.getElementById('image-preview').style.display = 'none';
-        }
 
         // Form submission
         document.getElementById('feedback-form').addEventListener('submit', function(e) {
@@ -251,7 +166,7 @@
                 user_email: document.getElementById('user-email').value || 'Not provided',
                 feedback_subject: document.getElementById('feedback-subject').value,
                 feedback_message: document.getElementById('feedback-message').value,
-                feedback_image: selectedImage || 'No image provided',
+
                 timestamp: new Date().toLocaleString(),
                 page_url: window.location.href
             };
@@ -274,7 +189,6 @@
                     📧 Check all Gmail folders (including spam)
                     ⏰ Time: ${new Date().toLocaleTimeString()}`, 'success');
                     document.getElementById('feedback-form').reset();
-                    removeImage();
                 }, function(error) {
                     console.log('❌ EmailJS FAILED:', error);
                     console.log('Error details:', error.text || error.message);

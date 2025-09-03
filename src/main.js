@@ -18,7 +18,9 @@ import { initOrdersTable } from './ui/ordersTable.js';
 import { initHistoryTable } from './ui/historyTable.js';
 import { initChart } from './ui/chart.js';
 import { AchievementService } from './services/achievementService.js';
+import { LeaderboardService } from './services/leaderboardService.js';
 import { initAchievementsPanel } from './ui/achievementsPanel.js';
+import { initLeaderboardPanel } from './ui/leaderboardPanel.js';
 import { initNavigation } from './ui/navigation.js';
 import { initModal, showModal, checkAndShowWelcome, showWelcomeModal, resetWelcomeStatus } from './ui/modal.js';
 import { refreshPriceDisplay } from './ui/priceDisplay.js';
@@ -50,7 +52,12 @@ newsService.start();
 console.log('[Service] NewsService started');
 
 const achievementService = new AchievementService(accountService);
-window.tradingServices = { accountService, tradingEngine, marketService, timeService, achievementService, newsService };
+const leaderboardService = new LeaderboardService();
+
+// 开始新游戏追踪
+leaderboardService.startNewGame();
+
+window.tradingServices = { accountService, tradingEngine, marketService, timeService, achievementService, newsService, leaderboardService };
 
 // 全局初始化函数
 function initUI() {
@@ -64,13 +71,20 @@ function initUI() {
   initHistoryTable(accountService);
   initChart(marketService);
   initAchievementsPanel();
+  initLeaderboardPanel(leaderboardService);
   initNewsDisplay(newsService);
 
   // 初始价格显示
   refreshPriceDisplay({ currentPrice: marketService.currentPrice, previousPrice: marketService.currentPrice });
 
   // 监听价格更新刷新价格显示
-  window.addEventListener('priceUpdate', (e) => refreshPriceDisplay(e.detail));
+  window.addEventListener('priceUpdate', (e) => {
+    refreshPriceDisplay(e.detail);
+    
+    // 更新排行榜统计数据
+    const accountInfo = accountService.getAccountInfo();
+    leaderboardService.updateGameStats(accountInfo, timeService);
+  });
 
   // 添加分享按钮事件监听
   document.getElementById('share-x-btn')?.addEventListener('click', () => {
@@ -115,4 +129,55 @@ window.testNews = {
 };
 
 // 调试功能 - 重置欢迎状态
-window.resetWelcome = resetWelcomeStatus; 
+window.resetWelcome = resetWelcomeStatus;
+
+// 调试功能 - 排行榜测试
+window.testLeaderboard = {
+  // 强制触发爆仓（测试用）
+  forceLiquidation: () => {
+    const account = window.tradingServices.accountService;
+    const trading = window.tradingServices.tradingEngine;
+    account.balance = 0;
+    account.equity = 0;
+    account.setLiquidated(true);
+    trading.showLiquidationModal();
+  },
+  
+  // 添加测试数据到排行榜
+  addTestEntry: (username = 'TestUser') => {
+    const leaderboard = window.tradingServices.leaderboardService;
+    const account = window.tradingServices.accountService;
+    const time = window.tradingServices.timeService;
+    
+    // 模拟一些统计数据
+    const testAccountInfo = {
+      balance: 0,
+      totalTrades: Math.floor(Math.random() * 100) + 10,
+      winningTrades: Math.floor(Math.random() * 50) + 5,
+      maxBalance: Math.floor(Math.random() * 50000) + 10000
+    };
+    
+    try {
+      const entry = leaderboard.addLeaderboardEntry(username + Math.floor(Math.random() * 1000), testAccountInfo, time);
+      window.dispatchEvent(new Event('leaderboardUpdate'));
+      console.log('Added test entry:', entry);
+      return entry;
+    } catch (error) {
+      console.error('Failed to add test entry:', error);
+    }
+  },
+  
+  // 清空排行榜
+  clearLeaderboard: () => {
+    const leaderboard = window.tradingServices.leaderboardService;
+    leaderboard.clearLeaderboard();
+    window.dispatchEvent(new Event('leaderboardUpdate'));
+    console.log('Leaderboard cleared');
+  },
+  
+  // 获取排行榜数据
+  getLeaderboard: () => {
+    const leaderboard = window.tradingServices.leaderboardService;
+    return leaderboard.getLeaderboard();
+  }
+}; 

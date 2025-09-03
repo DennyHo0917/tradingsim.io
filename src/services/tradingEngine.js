@@ -2,6 +2,7 @@
 import { GAME_CONFIG } from '../config/gameConfig.js';
 import { AccountService } from './accountService.js';
 import { formatCurrency } from '../utils/format.js';
+import { showUsernameModal } from '../ui/leaderboardPanel.js';
 
 export class TradingEngine {
   constructor(accountService, marketService) {
@@ -32,6 +33,38 @@ export class TradingEngine {
 
   // 显示爆仓弹窗
   showLiquidationModal() {
+    const accountInfo = this.account.getAccountInfo();
+    const leaderboardService = window.tradingServices?.leaderboardService;
+    const timeService = window.tradingServices?.timeService;
+    
+    // 更新排行榜服务的当前游戏统计
+    if (leaderboardService && timeService) {
+      leaderboardService.updateGameStats(accountInfo, timeService);
+    }
+    
+    // 显示用户名输入弹窗
+    if (leaderboardService && timeService) {
+      showUsernameModal(accountInfo, timeService, (username) => {
+        try {
+          const entry = leaderboardService.addLeaderboardEntry(username, accountInfo, timeService);
+          
+          // 触发排行榜更新事件
+          window.dispatchEvent(new Event('leaderboardUpdate'));
+          
+          return entry;
+        } catch (error) {
+          console.error('[Leaderboard] Failed to add entry:', error);
+          throw error;
+        }
+      });
+    } else {
+      // 如果排行榜服务不可用，显示传统的爆仓弹窗
+      this.showTraditionalLiquidationModal();
+    }
+  }
+  
+  // 传统爆仓弹窗（备用）
+  showTraditionalLiquidationModal() {
     const message = `
       <div style="text-align: center; margin: 20px 0;">
         <p style="font-size: 1.2em; color: #ff4757; margin-bottom: 15px;">💥 Account Liquidated!</p>

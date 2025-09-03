@@ -33,6 +33,12 @@ export class AccountService {
     POSITION_ID = 1; // 重置位置ID
     this._ORDER_ID = 1;
     
+    // 通知排行榜服务开始新游戏
+    const leaderboardService = window.tradingServices?.leaderboardService;
+    if (leaderboardService) {
+      leaderboardService.startNewGame();
+    }
+    
     // 触发更新事件
     window.dispatchEvent(new Event('positionsUpdate'));
     window.dispatchEvent(new Event('ordersUpdate'));

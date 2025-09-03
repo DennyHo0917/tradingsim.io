@@ -1280,3 +1280,317 @@ body {
 .privacy-content ul li {
     margin-bottom: 0.5rem;
 }
+
+/* Leaderboard Styles */
+.leaderboard-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.leaderboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.leaderboard-controls {
+    margin-bottom: 1.5rem;
+}
+
+.sort-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.sort-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.sort-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.sort-btn.active {
+    background: rgba(0, 212, 255, 0.3);
+    border-color: #00d4ff;
+    color: #00d4ff;
+}
+
+.leaderboard-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.leaderboard-table th {
+    background: rgba(0, 0, 0, 0.3);
+    color: #00d4ff;
+    padding: 1rem 0.5rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.leaderboard-table td {
+    padding: 0.8rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-row.top-rank {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.rank-cell {
+    text-align: center;
+    font-weight: 600;
+}
+
+.rank-number {
+    font-size: 1.1em;
+}
+
+.username-cell {
+    font-weight: 600;
+    color: #00d4ff;
+}
+
+.primary-value-cell {
+    font-weight: 700;
+    color: #ffd700;
+    font-size: 1.1em;
+}
+
+.survival-cell {
+    color: #4ecdc4;
+}
+
+.balance-cell {
+    color: #a8e6cf;
+}
+
+.trades-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.win-rate {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.date-cell {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.no-leaderboard-data {
+    padding: 2rem;
+    text-align: center;
+}
+
+.empty-state p {
+    margin: 0.5rem 0;
+    opacity: 0.7;
+}
+
+.empty-state p:first-child {
+    font-size: 1.2em;
+    opacity: 1;
+}
+
+/* Username Modal Styles */
+.username-modal-content {
+    text-align: left;
+}
+
+.game-over-stats {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.game-over-stats h4 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+.username-input-section {
+    padding: 1rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+}
+
+.username-input-section h4 {
+    color: #00d4ff;
+    margin-bottom: 0.5rem;
+}
+
+.username-input-section p {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: calc(100% - 40px);
+    padding: 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+.random-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.random-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.username-rules {
+    margin-bottom: 1rem;
+}
+
+.username-rules small {
+    opacity: 0.7;
+    line-height: 1.4;
+}
+
+.error-message {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Leaderboard Styles */
+@media (max-width: 1024px) {
+    .leaderboard-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .leaderboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sort-buttons {
+        justify-content: center;
+    }
+    
+    .leaderboard-table {
+        font-size: 0.8rem;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 0.6rem 0.3rem;
+    }
+    
+    /* 隐藏部分列在小屏幕上 */
+    .leaderboard-table th:nth-child(7),
+    .leaderboard-table td:nth-child(7) {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .leaderboard-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .sort-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .sort-btn {
+        text-align: center;
+    }
+    
+    /* 进一步简化表格 */
+    .leaderboard-table th:nth-child(4),
+    .leaderboard-table td:nth-child(4),
+    .leaderboard-table th:nth-child(5),
+    .leaderboard-table td:nth-child(5) {
+        display: none;
+    }
+}

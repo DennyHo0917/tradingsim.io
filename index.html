@@ -69,7 +69,8 @@
                 <nav class="nav">
                     <button class="nav-btn active" data-view="trading">Trading</button>
                     <button class="nav-btn" data-view="history">History</button>
-                    <button class="nav-btn" data-view="achievements">🏆 Achievements</button>
+                    <button class="nav-btn" data-view="achievements">🏆</button>
+                    <button class="nav-btn" data-view="leaderboard">📊 Leaderboard</button>
                     <button class="nav-btn nav-action-btn" id="help-btn">❓ Help</button>
                     <a href="feedback.html" class="nav-btn nav-action-btn">📝 Feedback</a>
                     <button class="nav-btn nav-action-btn" id="share-x-btn">Share on X</button>
@@ -332,6 +333,72 @@
                 </div>
                 <div class="achievements-grid" id="achievements-grid">
                     <!-- Achievements will be dynamically populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Panel -->
+        <section class="leaderboard-section" id="leaderboard-section" style="display: none;">
+            <h3>📊 Leaderboard</h3>
+            
+            <!-- Leaderboard Stats -->
+            <div class="leaderboard-stats">
+                <div class="stat-item">
+                    <label>Total Players:</label>
+                    <span id="leaderboard-total-entries">0</span>
+                </div>
+                <div class="stat-item">
+                    <label>Avg Survival:</label>
+                    <span id="leaderboard-avg-survival">0 days</span>
+                </div>
+                <div class="stat-item">
+                    <label>Max Survival:</label>
+                    <span id="leaderboard-max-survival">0 days</span>
+                </div>
+                <div class="stat-item">
+                    <label>Avg Max Balance:</label>
+                    <span id="leaderboard-avg-balance">$0</span>
+                </div>
+                <div class="stat-item">
+                    <label>Top Balance:</label>
+                    <span id="leaderboard-top-balance">$0</span>
+                </div>
+            </div>
+            
+            <!-- Sort Controls -->
+            <div class="leaderboard-controls">
+                <div class="sort-buttons">
+                    <button class="sort-btn active" id="sort-survivalDays">🏃 Survival</button>
+                    <button class="sort-btn" id="sort-maxProfit">💰 Profit</button>
+                    <button class="sort-btn" id="sort-maxBalance">💎 Balance</button>
+                    <button class="sort-btn" id="sort-winRate">🎯 Win Rate</button>
+                    <button class="sort-btn" id="sort-totalTrades">📊 Trades</button>
+                </div>
+            </div>
+            
+            <!-- Leaderboard Table -->
+            <div class="leaderboard-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th id="primary-metric-header">Survival Days</th>
+                            <th>Survival</th>
+                            <th>Max Balance</th>
+                            <th>Trades (Win%)</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-tbody">
+                        <!-- Leaderboard entries will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="no-leaderboard-data" id="no-leaderboard-data" style="display: block;">
+                    <div class="empty-state">
+                        <p>🏆 No leaderboard entries yet</p>
+                        <p>Be the first to make it to the leaderboard!</p>
+                    </div>
                 </div>
             </div>
         </section>
