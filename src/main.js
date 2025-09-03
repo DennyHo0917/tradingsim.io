@@ -54,6 +54,10 @@ console.log('[Service] NewsService started');
 const achievementService = new AchievementService(accountService);
 const leaderboardService = new LeaderboardService();
 
+// 清空排行榜数据（一次性操作）
+leaderboardService.clearLeaderboard();
+console.log('[Leaderboard] Cleared all leaderboard data for fresh start');
+
 // 开始新游戏追踪 - 传入timeService以使用游戏时间
 leaderboardService.startNewGame(timeService);
 

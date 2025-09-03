@@ -46,6 +46,14 @@ export class AccountService {
     window.dispatchEvent(new Event('historyUpdate'));
     window.dispatchEvent(new Event('accountRestart'));
     
+    // 切换回交易界面
+    setTimeout(() => {
+      const tradingBtn = document.querySelector('[data-view="trading"]');
+      if (tradingBtn && !tradingBtn.classList.contains('active')) {
+        tradingBtn.click();
+      }
+    }, 100);
+    
     console.log('[Account] Game restarted - Balance reset to', formatCurrency(this.initialBalance));
   }
 

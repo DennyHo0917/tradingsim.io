@@ -78,6 +78,10 @@ export function showModal(title, message, type = 'info', onConfirm = null, onCan
   if (type === 'liquidation') modal.classList.add('liquidation-modal');
   if (type === 'welcome') modal.classList.add('welcome-modal');
 
+  // 重置按钮文本为默认值
+  confirmBtn.textContent = 'OK';
+  cancelBtn.textContent = 'Cancel';
+  
   // 按钮
   if (onCancel) {
     cancelBtn.style.display = 'inline-block';

@@ -240,15 +240,61 @@ export function showUsernameModal(accountInfo, timeService, onSubmit) {
               // 成功添加到排行榜
               console.log('[Leaderboard] Successfully added entry:', entry);
               
-              // 显示成功消息
+              // 显示成功消息和重启选项
               setTimeout(() => {
                 if (window.showGameModal) {
+                  const restartHtml = `
+                    <div style="text-align: center; line-height: 1.6;">
+                      <p style="margin-bottom: 20px;">Your score has been saved as <strong>${escapeHtml(entry.username)}</strong>!</p>
+                      <p style="margin-bottom: 25px;">Check the Leaderboard to see your ranking.</p>
+                      
+                      <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <p style="color: #00d4ff; font-weight: bold; margin-bottom: 15px;">🎮 What's next?</p>
+                        <p style="font-size: 0.9em; color: #ccc;">Both options will start a new game with fresh $10,000!</p>
+                      </div>
+                    </div>
+                  `;
+                  
                   window.showGameModal(
                     '✅ Added to Leaderboard!', 
-                    `<p>Your score has been saved as <strong>${escapeHtml(entry.username)}</strong>!</p>
-                     <p>Check the Leaderboard to see your ranking.</p>`,
-                    'success'
+                    restartHtml,
+                    'success',
+                    () => {
+                      // 确认按钮 - 重启游戏
+                      const accountService = window.tradingServices?.accountService;
+                      if (accountService) {
+                        accountService.restart();
+                        console.log('[Game] Restarted after leaderboard entry');
+                      }
+                    },
+                    () => {
+                      // 取消按钮 - 重启游戏并查看排行榜
+                      const accountService = window.tradingServices?.accountService;
+                      if (accountService) {
+                        accountService.restart();
+                        console.log('[Game] Restarted before viewing leaderboard');
+                      }
+                      
+                      // 切换到排行榜页面
+                      setTimeout(() => {
+                        const leaderboardBtn = document.querySelector('[data-view="leaderboard"]');
+                        if (leaderboardBtn) {
+                          leaderboardBtn.click();
+                        }
+                      }, 100);
+                    }
                   );
+                  
+                  // 设置按钮文本
+                  setTimeout(() => {
+                    const confirmBtn = document.getElementById('modal-confirm');
+                    const cancelBtn = document.getElementById('modal-cancel');
+                    if (confirmBtn) confirmBtn.textContent = '🎮 Restart Game';
+                    if (cancelBtn) {
+                      cancelBtn.textContent = 'View Leaderboard';
+                      cancelBtn.style.display = 'inline-block';
+                    }
+                  }, 50);
                 }
               }, 100);
             }
@@ -263,8 +309,47 @@ export function showUsernameModal(accountInfo, timeService, onSubmit) {
         }
       },
       () => {
-        // 取消按钮回调 - 跳过保存
+        // 取消按钮回调 - 跳过保存，直接显示重启选项
         console.log('[Leaderboard] User skipped saving to leaderboard');
+        
+        setTimeout(() => {
+          if (window.showGameModal) {
+            const skipRestartHtml = `
+              <div style="text-align: center; line-height: 1.6;">
+                <p style="margin-bottom: 25px;">No worries! Your progress wasn't saved to the leaderboard.</p>
+                
+                <div style="background: rgba(0, 212, 255, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                  <p style="color: #00d4ff; font-weight: bold; margin-bottom: 15px;">🎮 Ready to try again?</p>
+                  <p style="font-size: 0.9em; color: #ccc;">Start a new game with $10,000 and see how far you can go!</p>
+                </div>
+              </div>
+            `;
+            
+            window.showGameModal(
+              '🎯 Game Over', 
+              skipRestartHtml,
+              'info',
+              () => {
+                // 确认按钮 - 重启游戏
+                const accountService = window.tradingServices?.accountService;
+                if (accountService) {
+                  accountService.restart();
+                  console.log('[Game] Restarted after skipping leaderboard');
+                }
+              }
+            );
+            
+            // 设置按钮文本
+            setTimeout(() => {
+              const confirmBtn = document.getElementById('modal-confirm');
+              const cancelBtn = document.getElementById('modal-cancel');
+              if (confirmBtn) confirmBtn.textContent = '🎮 Start New Game';
+              if (cancelBtn) {
+                cancelBtn.style.display = 'none'; // 隐藏取消按钮
+              }
+            }, 50);
+          }
+        }, 100);
       }
     );
     
