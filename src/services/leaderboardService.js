@@ -5,6 +5,12 @@ export class LeaderboardService {
   constructor() {
     this.leaderboard = this.loadLeaderboard();
     this.currentGameStats = null; // 当前游戏统计数据
+    
+    // 调试信息：显示加载的排行榜数据
+    console.log('[Leaderboard] Loaded leaderboard data:', this.leaderboard.length, 'entries');
+    if (this.leaderboard.length > 0) {
+      console.log('[Leaderboard] Sample entries:', this.leaderboard.slice(0, 3));
+    }
   }
 
   // 从本地存储加载排行榜数据
@@ -45,9 +51,12 @@ export class LeaderboardService {
   }
 
   // 开始新游戏时记录开始时间
-  startNewGame() {
+  startNewGame(timeService = null) {
+    // 使用游戏时间而不是真实时间
+    const gameStartTime = timeService ? timeService.getCurrentGameTime().getTime() : new Date(1990, 0, 1).getTime();
+    
     this.currentGameStats = {
-      gameStartTime: Date.now(),
+      gameStartTime: gameStartTime, // 游戏时间
       maxBalance: 10000,
       maxProfit: 0,
       totalTrades: 0,
@@ -58,7 +67,7 @@ export class LeaderboardService {
   // 更新当前游戏统计数据
   updateGameStats(accountInfo, timeService) {
     if (!this.currentGameStats) {
-      this.startNewGame();
+      this.startNewGame(timeService);
     }
 
     const stats = this.currentGameStats;
@@ -78,11 +87,12 @@ export class LeaderboardService {
     stats.totalTrades = accountInfo.totalTrades;
     stats.winningTrades = accountInfo.winningTrades;
     
-    // 计算存活天数
+    // 计算存活天数 - 使用游戏时间
     if (timeService) {
       const currentGameTime = timeService.getCurrentGameTime();
       const gameStartTime = new Date(stats.gameStartTime);
-      const daysDiff = Math.floor((currentGameTime - gameStartTime) / (1000 * 60 * 60 * 24));
+      // 计算游戏内的天数差异
+      const daysDiff = Math.floor((currentGameTime.getTime() - gameStartTime.getTime()) / (1000 * 60 * 60 * 24));
       stats.survivalDays = Math.max(0, daysDiff);
     }
   }
@@ -102,12 +112,13 @@ export class LeaderboardService {
     const now = Date.now();
     const gameEndTime = timeService ? timeService.getCurrentGameTime().getTime() : now;
     
-    // 计算最终存活天数
+    // 计算最终存活天数 - 使用游戏时间
     let survivalDays = 0;
     if (timeService) {
       const gameStartTime = new Date(this.currentGameStats.gameStartTime);
       const currentGameTime = timeService.getCurrentGameTime();
-      survivalDays = Math.floor((currentGameTime - gameStartTime) / (1000 * 60 * 60 * 24));
+      // 计算游戏内的天数差异
+      survivalDays = Math.floor((currentGameTime.getTime() - gameStartTime.getTime()) / (1000 * 60 * 60 * 24));
     }
 
     const entry = {

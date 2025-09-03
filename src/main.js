@@ -54,8 +54,8 @@ console.log('[Service] NewsService started');
 const achievementService = new AchievementService(accountService);
 const leaderboardService = new LeaderboardService();
 
-// 开始新游戏追踪
-leaderboardService.startNewGame();
+// 开始新游戏追踪 - 传入timeService以使用游戏时间
+leaderboardService.startNewGame(timeService);
 
 window.tradingServices = { accountService, tradingEngine, marketService, timeService, achievementService, newsService, leaderboardService };
 

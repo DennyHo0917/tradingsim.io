@@ -33,10 +33,11 @@ export class AccountService {
     POSITION_ID = 1; // 重置位置ID
     this._ORDER_ID = 1;
     
-    // 通知排行榜服务开始新游戏
+    // 通知排行榜服务开始新游戏 - 传入timeService以使用游戏时间
     const leaderboardService = window.tradingServices?.leaderboardService;
+    const timeService = window.tradingServices?.timeService;
     if (leaderboardService) {
-      leaderboardService.startNewGame();
+      leaderboardService.startNewGame(timeService);
     }
     
     // 触发更新事件

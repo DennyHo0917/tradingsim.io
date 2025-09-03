@@ -17,6 +17,9 @@ export function initLeaderboardPanel(service) {
   // 初始化表头
   updatePrimaryMetricHeader();
   
+  // 立即刷新显示已保存的排行榜数据
+  refreshLeaderboardDisplay();
+  
   console.log('[UI] Leaderboard panel initialized');
 }
 
@@ -52,10 +55,19 @@ function updateSortButtons() {
 
 // 刷新排行榜显示
 function refreshLeaderboardDisplay() {
-  if (!leaderboardService) return;
+  if (!leaderboardService) {
+    console.warn('[Leaderboard UI] LeaderboardService not available');
+    return;
+  }
   
   const leaderboard = leaderboardService.getLeaderboard(currentSortType, 20);
   const stats = leaderboardService.getLeaderboardStats();
+  
+  console.log('[Leaderboard UI] Refreshing display:', {
+    sortType: currentSortType,
+    entriesCount: leaderboard.length,
+    statsTotal: stats.totalEntries
+  });
   
   // 更新排行榜表格
   updateLeaderboardTable(leaderboard);
@@ -292,7 +304,7 @@ export function showUsernameModal(accountInfo, timeService, onSubmit) {
   }
 }
 
-// 计算存活天数
+// 计算存活天数 - 使用游戏时间
 function calculateSurvivalDays(timeService) {
   if (!timeService || !leaderboardService?.currentGameStats) {
     return 0;
@@ -300,7 +312,8 @@ function calculateSurvivalDays(timeService) {
   
   const currentGameTime = timeService.getCurrentGameTime();
   const gameStartTime = new Date(leaderboardService.currentGameStats.gameStartTime);
-  const daysDiff = Math.floor((currentGameTime - gameStartTime) / (1000 * 60 * 60 * 24));
+  // 计算游戏内的天数差异
+  const daysDiff = Math.floor((currentGameTime.getTime() - gameStartTime.getTime()) / (1000 * 60 * 60 * 24));
   return Math.max(0, daysDiff);
 }
 
