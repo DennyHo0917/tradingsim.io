@@ -3,6 +3,7 @@ import { GAME_CONFIG } from '../config/gameConfig.js';
 import { AccountService } from './accountService.js';
 import { formatCurrency } from '../utils/format.js';
 import { showUsernameModal } from '../ui/leaderboardPanel.js';
+import { audioManager } from '../utils/audioManager.js';
 
 export class TradingEngine {
   constructor(accountService, marketService) {
@@ -17,6 +18,10 @@ export class TradingEngine {
       // Liquidation check
       if (this.account.equity <= 0 && this.account.positions.length && !this.account.isLiquidated) {
         console.warn('[Liquidation] Equity <= 0, liquidating all positions');
+        
+        // 播放爆仓音效
+        audioManager.playLiquidationSound();
+        
         this.closeAll();
         this.account.balance = 0;
         this.account.equity = 0;
@@ -136,6 +141,9 @@ export class TradingEngine {
     console.log(
       `[Trade] Open ${side.toUpperCase()} size=${size.toFixed(3)} @ ${price} leverage=${leverage} (posId=${pos.id})`
     );
+    // 播放交易音效（开仓总是中性音效）
+    audioManager.playTradeSound(true);
+    
     if (window.showGameModal) {
       window.showGameModal('✅ Order Filled', `<p>${side.toUpperCase()} ${size.toFixed(3)} @ ${price}</p>`);
     }
@@ -151,6 +159,9 @@ export class TradingEngine {
       
       // 触发交易完成事件用于成就系统
       window.dispatchEvent(new CustomEvent('tradeCompleted', { detail: closed }));
+      
+      // 播放交易音效（根据盈亏决定音调）
+      audioManager.playTradeSound(closed.pnl >= 0);
       
       window.dispatchEvent(new Event('positionsUpdate'));
       if (window.showGameModal) {

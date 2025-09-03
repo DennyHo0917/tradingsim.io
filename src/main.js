@@ -26,6 +26,9 @@ import { initModal, showModal, checkAndShowWelcome, showWelcomeModal, resetWelco
 import { refreshPriceDisplay } from './ui/priceDisplay.js';
 import { initTimeControls } from './ui/timeControls.js';
 import { initNewsDisplay } from './ui/newsDisplay.js';
+import { achievementCelebration } from './ui/achievementCelebration.js';
+import { modalPauseManager } from './utils/modalPauseManager.js';
+import { audioManager } from './utils/audioManager.js';
 
 console.log('[Module] GAME_CONFIG', GAME_CONFIG);
 console.log('[Module] MARKET_CONFIG', MARKET_CONFIG);
@@ -57,7 +60,7 @@ const leaderboardService = new LeaderboardService();
 // 开始新游戏追踪 - 传入timeService以使用游戏时间
 leaderboardService.startNewGame(timeService);
 
-window.tradingServices = { accountService, tradingEngine, marketService, timeService, achievementService, newsService, leaderboardService };
+window.tradingServices = { accountService, tradingEngine, marketService, timeService, achievementService, newsService, leaderboardService, achievementCelebration, modalPauseManager, audioManager };
 
 // 全局初始化函数
 function initUI() {
@@ -130,6 +133,97 @@ window.testNews = {
 
 // 调试功能 - 重置欢迎状态
 window.resetWelcome = resetWelcomeStatus;
+
+// 调试功能 - 音效测试
+window.testAudio = {
+  // 测试成就音效
+  testAchievement: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      audioManager.playAchievementSound();
+      console.log('🎉 Playing achievement sound');
+    }
+  },
+  
+  // 测试爆仓音效
+  testLiquidation: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      audioManager.playLiquidationSound();
+      console.log('💥 Playing liquidation sound');
+    }
+  },
+  
+  // 测试盈利交易音效
+  testProfitTrade: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      audioManager.playTradeSound(true);
+      console.log('📈 Playing profit trade sound');
+    }
+  },
+  
+  // 测试亏损交易音效
+  testLossTrade: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      audioManager.playTradeSound(false);
+      console.log('📉 Playing loss trade sound');
+    }
+  },
+  
+  // 切换音效
+  toggleSound: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      const enabled = audioManager.toggleSound();
+      console.log('🔊 Sound:', enabled ? 'ON' : 'OFF');
+      return enabled;
+    }
+  },
+  
+  // 设置音量
+  setVolume: (volume) => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      audioManager.setVolume(volume);
+      console.log('🔊 Volume set to:', (volume * 100).toFixed(0) + '%');
+    }
+  },
+  
+  // 获取音效状态
+  getStatus: () => {
+    const { audioManager } = window.tradingServices;
+    if (audioManager) {
+      const status = audioManager.getStatus();
+      console.log('🔊 Audio Status:', status);
+      return status;
+    }
+  }
+};
+
+// 调试功能 - 成就测试
+window.testAchievement = {
+  // 测试成就庆祝效果
+  testCelebration: () => {
+    const { achievementCelebration } = window.tradingServices;
+    if (achievementCelebration) {
+      const testAchievement = {
+        id: 'test',
+        name: 'Test Achievement',
+        description: 'This is a test achievement for demonstration',
+        icon: '🎉',
+        reward: { title: 'Test Master' }
+      };
+      achievementCelebration.celebrate(testAchievement);
+    }
+  },
+  
+  // 切换音效（委托给audioManager）
+  toggleSound: () => {
+    return window.testAudio.toggleSound();
+  }
+};
 
 // 调试功能 - 排行榜测试
 window.testLeaderboard = {

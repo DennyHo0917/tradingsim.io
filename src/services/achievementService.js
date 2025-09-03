@@ -1,6 +1,7 @@
 // achievementService.js - 处理成就解锁逻辑
 import { ACHIEVEMENTS } from '../config/achievementsConfig.js';
 import { formatCurrency } from '../utils/format.js';
+import { achievementCelebration } from '../ui/achievementCelebration.js';
 
 export class AchievementService {
   constructor(accountService) {
@@ -33,9 +34,16 @@ export class AchievementService {
     Object.values(ACHIEVEMENTS).forEach((ach) => {
       if (!this.unlocked.has(ach.id) && this._check(ach)) {
         this.unlocked.add(ach.id);
+        
+        // 触发庆祝效果
+        achievementCelebration.celebrate(ach);
+        
+        // 派发事件给UI更新
         window.dispatchEvent(
           new CustomEvent('achievementUnlocked', { detail: ach })
         );
+        
+        console.log('[Achievement] 🏆 Achievement unlocked:', ach.name);
       }
     });
   }

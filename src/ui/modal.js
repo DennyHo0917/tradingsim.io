@@ -1,4 +1,5 @@
 // modal.js - 通用弹窗封装，兼容旧 showGameModal
+import { modalPauseManager } from '../utils/modalPauseManager.js';
 
 // 欢迎弹窗版本常量
 const WELCOME_VERSION = 'v1.0';
@@ -69,6 +70,12 @@ export function showModal(title, message, type = 'info', onConfirm = null, onCan
   const confirmBtn = document.getElementById('modal-confirm');
   const cancelBtn = document.getElementById('modal-cancel');
 
+  // 暂停游戏（除了某些不需要暂停的弹窗类型）
+  const nonPausingTypes = ['info']; // 可以添加不需要暂停的弹窗类型
+  if (!nonPausingTypes.includes(type)) {
+    modalPauseManager.pauseGame(type);
+  }
+
   // 填充内容
   modalTitle.textContent = title;
   modalMessage.innerHTML = message;
@@ -77,6 +84,7 @@ export function showModal(title, message, type = 'info', onConfirm = null, onCan
   modal.className = 'game-modal';
   if (type === 'liquidation') modal.classList.add('liquidation-modal');
   if (type === 'welcome') modal.classList.add('welcome-modal');
+  if (type === 'achievement-celebration') modal.classList.add('achievement-celebration-modal');
 
   // 重置按钮文本为默认值
   confirmBtn.textContent = 'OK';
@@ -103,7 +111,11 @@ export function showModal(title, message, type = 'info', onConfirm = null, onCan
 
 export function closeModal() {
   const modal = document.getElementById('game-modal');
-  if (modal) modal.style.display = 'none';
+  if (modal) {
+    modal.style.display = 'none';
+    // 恢复游戏时间
+    modalPauseManager.resumeGame('modal-close');
+  }
 }
 
 export function initModal() {
