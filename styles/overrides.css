@@ -227,6 +227,21 @@ body.trading-active .trade-btn {
     text-decoration: underline;
 }
 
+/* Footer links - apply consistent readable style on all pages */
+.footer-main a,
+.footer-main a:link,
+.footer-main a:visited {
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.footer-main a:hover,
+.footer-main a:focus {
+    color: #00d4ff !important;
+    text-decoration: underline;
+}
+
 /* Mobile: enable horizontal scroll for wide tables */
 @media (max-width: 768px) {
     .positions-container,
