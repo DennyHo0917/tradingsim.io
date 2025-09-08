@@ -206,3 +206,50 @@ body.trading-active .trade-btn {
         font-size: 0.9rem;
     }
 } 
+
+/* Contact page - ensure links are readable and consistent */
+.contact-page a,
+.contact-page a:link,
+.contact-page a:visited,
+.strong-links a,
+.strong-links a:link,
+.strong-links a:visited {
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.contact-page a:hover,
+.contact-page a:focus,
+.strong-links a:hover,
+.strong-links a:focus {
+    color: #00d4ff !important;
+    text-decoration: underline;
+}
+
+/* Mobile: enable horizontal scroll for wide tables */
+@media (max-width: 768px) {
+    .positions-container,
+    .orders-container,
+    .history-container,
+    .leaderboard-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .positions-table,
+    .orders-table,
+    .history-table,
+    .leaderboard-table {
+        min-width: 640px;
+    }
+}
+
+@media (max-width: 480px) {
+    .positions-table,
+    .orders-table,
+    .history-table,
+    .leaderboard-table {
+        min-width: 520px;
+    }
+}

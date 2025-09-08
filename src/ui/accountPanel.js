@@ -40,7 +40,7 @@ export function initAccountPanel(accountService) {
     // 显示爆仓状态
     const playerTitleEl = document.getElementById('player-title');
     if (playerTitleEl && accountService.isLiquidated) {
-      playerTitleEl.textContent = '⚠️ LIQUIDATED - Trading Disabled';
+      playerTitleEl.textContent = '⚠️ LIQUIDATED - Trading Disabled, Please Refresh the Page to Continue';
       playerTitleEl.style.color = '#ff4757';
     }
   }

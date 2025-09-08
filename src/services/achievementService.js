@@ -131,8 +131,9 @@ export class AchievementService {
   }
   
   _checkSingleTradeSize(condition, stats) {
+    // size 已包含杠杆（开仓时 size = balance * leverage / price），这里避免重复乘以 leverage
     return stats.tradeHistory.some(trade => 
-      Math.abs(trade.entryPrice * trade.size * trade.leverage) >= condition.amount
+      Math.abs(trade.entryPrice * trade.size) >= condition.amount
     );
   }
   
