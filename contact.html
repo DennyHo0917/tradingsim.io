@@ -38,6 +38,54 @@
         </div>
     </header>
 
+    <!-- Side Ad Rails (same as index) -->
+    <div class="ad-rail ad-rail-left" aria-label="Advertisement" role="complementary">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'd4c29484475fb5a4db1c51ce0d4bbda8',
+                'format' : 'iframe',
+                'height' : 600,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/d4c29484475fb5a4db1c51ce0d4bbda8/invoke.js"></script>
+        <div class="ad-gap"></div>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4a9cf1edf67fa159992160b691f6dc1f',
+                'format' : 'iframe',
+                'height' : 300,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4a9cf1edf67fa159992160b691f6dc1f/invoke.js"></script>
+    </div>
+    <div class="ad-rail ad-rail-right" aria-label="Advertisement" role="complementary">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'd4c29484475fb5a4db1c51ce0d4bbda8',
+                'format' : 'iframe',
+                'height' : 600,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/d4c29484475fb5a4db1c51ce0d4bbda8/invoke.js"></script>
+        <div class="ad-gap"></div>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4a9cf1edf67fa159992160b691f6dc1f',
+                'format' : 'iframe',
+                'height' : 300,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4a9cf1edf67fa159992160b691f6dc1f/invoke.js"></script>
+    </div>
+
     <main class="main-container">
         <section class="account-panel" style="max-width: 800px; margin: 0 auto;">
             <h2 style="text-align:center; margin-bottom:1.5rem;">Contact</h2>
@@ -70,6 +118,54 @@
             <a href="contact.html">Contact</a>
         </p>
     </footer>
+    
+    <!-- Localhost ad placeholders (same behavior as index) -->
+    <script>
+    (function() {
+        try {
+            var host = location.hostname;
+            if (host === 'localhost' || host === '127.0.0.1') {
+                var rails = document.querySelectorAll('.ad-rail');
+                rails.forEach(function(el) {
+                    var hasIframe = el.querySelector('iframe');
+                    if (!hasIframe) {
+                        var box1 = document.createElement('div');
+                        box1.style.width = '160px';
+                        box1.style.height = '600px';
+                        box1.style.background = 'rgba(0, 212, 255, 0.15)';
+                        box1.style.border = '1px dashed #00d4ff';
+                        box1.style.color = '#00d4ff';
+                        box1.style.display = 'flex';
+                        box1.style.alignItems = 'center';
+                        box1.style.justifyContent = 'center';
+                        box1.style.fontWeight = '700';
+                        box1.style.fontFamily = 'Segoe UI, Roboto, sans-serif';
+                        box1.textContent = 'Ad Placeholder 160x600';
+                        el.appendChild(box1);
+
+                        var gap = document.createElement('div');
+                        gap.style.height = '16px';
+                        el.appendChild(gap);
+
+                        var box2 = document.createElement('div');
+                        box2.style.width = '160px';
+                        box2.style.height = '300px';
+                        box2.style.background = 'rgba(0, 212, 255, 0.1)';
+                        box2.style.border = '1px dashed #00d4ff';
+                        box2.style.color = '#00d4ff';
+                        box2.style.display = 'flex';
+                        box2.style.alignItems = 'center';
+                        box2.style.justifyContent = 'center';
+                        box2.style.fontWeight = '700';
+                        box2.style.fontFamily = 'Segoe UI, Roboto, sans-serif';
+                        box2.textContent = 'Ad Placeholder 160x300';
+                        el.appendChild(box2);
+                    }
+                });
+            }
+        } catch (e) {}
+    })();
+    </script>
 </body>
 </html>
 

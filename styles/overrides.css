@@ -268,3 +268,26 @@ body.trading-active .trade-btn {
         min-width: 520px;
     }
 }
+
+/* Side Ad Rails - visible on >=1600px only */
+.ad-rail {
+    position: fixed;
+    top: 120px;
+    width: 160px;
+    z-index: 999;
+    display: none;
+    display: none;
+}
+
+.ad-rail-left { left: calc((100vw - 1200px) / 2 - 180px); }
+.ad-rail-right { right: calc((100vw - 1200px) / 2 - 180px); }
+
+@media (min-width: 1600px) {
+    .ad-rail { display: block; }
+}
+
+/* Avoid overlap with modal overlay */
+.game-modal + .ad-rail { z-index: 900; }
+
+/* Stack multiple ads inside rails */
+.ad-rail .ad-gap { height: 16px; }
